@@ -7,31 +7,25 @@ const elements = [
         'name': 'Title',
         'type': 'LABEL',
         'method': 'xpath',
-        'locator': '//*[@class="signup"]/h1'
+        'locator': '//*[@class="signup"]'
     },
     {
-        'name': 'Body',
+        'name': 'Single Sign-on',
+        'type': 'SECTION',
+        'method': 'xpath',
+        'locator': '//*[@class="signup__social"]'
+    },
+    {
+        'name': 'Separator',
         'type': 'LABEL',
         'method': 'xpath',
-        'locator': '//*[@class="ab-signup-usa--free-text"]'
-    },
-    {
-        'name': 'Name',
-        'type': 'FIELD',
-        'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-name-1"]'
-    },
-    {
-        'name': 'Name Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="nameError"]'
+        'locator': '//*[@class="signup__separator"]'
     },
     {
         'name': 'Email',
         'type': 'FIELD',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-email-1"]'
+        'locator': '//*[@data-testid="mr-form-login-email-1"]'
     },
     {
         'name': 'Email Empty Error',
@@ -40,22 +34,22 @@ const elements = [
         'locator': '//*[@id="emailError"]'
     },
     {
-        'name': 'Email Invalid Error',
+        'name': 'Login Invalid',
         'type': 'LABEL',
         'method': 'xpath',
-        'locator': '//*[@id="emailInvalidError"]'
+        'locator': '//*[@id="loginError"]'
     },
     {
         'name': 'Password',
         'type': 'FIELD',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-password-1"]'
+        'locator': '//*[@data-testid="mr-form-login-password-1"]'
     },
     {
         'name': 'Password Empty Error',
         'type': 'LABEL',
         'method': 'xpath',
-        'locator': '//*[@data-testid="please-enter-your-password-1"]'
+        'locator': '//*[@id="passwordError"]'
     },
     {
         'name': 'Password Minimum Characters',
@@ -64,44 +58,26 @@ const elements = [
         'locator': '//*[@id="password-hint"]/div[@id="signup-form-password"]'
     },
     {
-        'name': 'Legal',
-        'type': 'CHECKBOX',
+        'name': 'Forgot Password',
+        'type': 'LINK',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-terms-1"]'
+        'locator': '//*[@data-testid="mr-link-forgot-password-1"]'
     },
     {
-        'name': 'Legal Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="termsError"]'
-    },
-    {
-        'name': 'Newsletter',
-        'type': 'CHECKBOX',
-        'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-subscribe-1"]'
-    },
-    {
-        'name': 'Get Started',
+        'name': 'Sign in',
         'type': 'BUTTON',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-btn-start-1"]'
+        'locator': '//*[@data-testid="mr-form-login-btn-signin-1"]'
     },
     {
         'name': 'Single Sign-on',
-        'type': 'SECTION',
+        'type': 'LINK',
         'method': 'xpath',
-        'locator': '//*[@class="signup__referrer-container"]'
-    },
-    {
-        'name': 'Free License',
-        'type': 'SECTION',
-        'method': 'xpath',
-        'locator': '//*[@class="cxl-social-container"]'
+        'locator': '//*[@data-testid="mr-link-signin-with-sso-1"]'
     }
 ];
 
-class SignUpPage {
+class LoginPage {
     constructor() {
     }
 
@@ -114,19 +90,34 @@ class SignUpPage {
     }
 
     static async navigate() {
-        await CustomWorld.driver.get('https://www.miro.com/signup');
+        await CustomWorld.driver.get('https://www.miro.com/login');
         await CustomWorld.driver.execute('return document.querySelector("#onetrust-banner-sdk").remove()')
         await CustomWorld.driver.execute('return document.querySelector("#js-branch-banner-iframe").remove()')
         this.trait();
     }
 
     static async trait() {
-        let element = await this.element('Title', 'LABEL');
+        let element = await this.element('Email', 'FIELD');
         let result = await base.is_displayed(element.method, element.locator)
         assert(result, 'This is not the right page');
+    }
+
+    static async type_credentials() {
+        let username = process.env.MIRO_USERNAME;
+        let password = process.env.MIRO_PASSWORD;
+        let element_username = await this.element('Email', 'FIELD')
+        let element_password = await this.element('Password', 'FIELD');
+        await base.type(element_username.method, element_username.locator, username);
+        await base.type(element_password.method, element_password.locator, password);
+    }
+
+    static async login() {
+        await this.type_credentials()
+        let element_signin = await this.element('Sign in', 'BUTTON');
+        await base.click(element_signin.method, element_signin.locator);
     }
 }
 
 module.exports = {
-    SignUpPage
+    LoginPage
 }

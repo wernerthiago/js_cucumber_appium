@@ -29,6 +29,7 @@ class CustomWorld extends World {
      */
     super(options);
     // Custom actions go here.
+    process.env.DEVICE_NAME = options.parameters.deviceNickname;
   }
 
   /*
