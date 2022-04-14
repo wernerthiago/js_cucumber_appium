@@ -1,0 +1,31 @@
+{
+  "name": "js_cucumber_appium",
+  "version": "1.0.0",
+  "description": "Test Automation Framework: JavaScript + Cucumber + Appium",
+  "main": "index.js",
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "appium": "appium",
+    "appium-doctor": "appium-doctor",
+    "cucumber": "cucumber-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://wernerthiago@github.com/wernerthiago/js_cucumber_appium.git"
+  },
+  "author": "Thiago Werner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wernerthiago/js_cucumber_appium/issues"
+  },
+  "homepage": "https://github.com/wernerthiago/js_cucumber_appium#readme",
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.0.0",
+    "selenium-webdriver": "^4.1.1",
+    "wd": "^1.14.0"
+  },
+  "dependencies": {
+    "appium-chromedriver": "^5.0.3"
+  }
+}
