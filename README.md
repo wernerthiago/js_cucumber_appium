@@ -1,3 +1,7 @@
+# Structure
+
+JavaScript + Cucumber + Page Objects + Appium
+
 # Installation
 
 To install all dependecies:
