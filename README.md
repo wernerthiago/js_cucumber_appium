@@ -2,33 +2,47 @@
 
 To install all dependecies:
 
-```npm install```
+```$ npm install```
 
 # Configure your device
 
 In the [environment.js](features/environment.js) file, inside config variable, you can configure your device. Use one of existent examples to help you.
 
+# Configure your environment variables
+
+To test the authentication happy flow, we're using environment variables.
+
+So, make sure to set the following variables in your terminal before running the tests:
+
+```$ export MIRO_USERNAME="your@username.com"```
+
+```$ export MIRO_PASSWORD="12345678"```
+
 # Execution
 
 Run Appium server:
 
-```appium```
+```$ appium```
 
 In case of your device's chromedriver does not match to the system, use the following command:
 
-```appium --chromedriver-executable /path/to/the/chromedriver```
+```$ appium --chromedriver-executable /path/to/the/chromedriver```
 
 Run all test files:
 
-```node_modules/.bin/cucumber-js --world-parameters '{"deviceNickname":"personal"}'```
+```$ node_modules/.bin/cucumber-js --world-parameters '{"deviceNickname":"personal"}'```
 
 Run specific feature file:
 
-```node_modules/.bin/cucumber-js features/Login.feature --world-parameters '{"deviceNickname":"personal"}'```
+```$ node_modules/.bin/cucumber-js features/Login.feature --world-parameters '{"deviceNickname":"personal"}'```
 
 Run specific tag from a test case:
 
-```node_modules/.bin/cucumber-js -t @tag --world-parameters '{"deviceNickname":"personal"}'```
+```$ node_modules/.bin/cucumber-js -t @tag --world-parameters '{"deviceNickname":"personal"}'```
+
+As you can see, the devices are handled by --world-parameters flag. So, after configuring your device inside environment.js file, you can use the new device nickname.
+
+The deviceNickname parameter will match the info from name attribute inside config variable.
 
 # Creating a new Feature file
 
