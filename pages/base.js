@@ -1,4 +1,5 @@
 const CustomWorld = require("../features/environment.js").CustomWorld
+const wd = require('wd');
 
 class basePage {
     constructor() {
@@ -13,7 +14,6 @@ class basePage {
     };
     
     static async is_displayed(method, locator) {
-        // this.ifKeyboard_hide();
         let keyboard = await CustomWorld.driver.isKeyboardShown();
         if (keyboard === true) {
             await CustomWorld.driver.hideDeviceKeyboard();
@@ -23,9 +23,9 @@ class basePage {
         return isDisplayed
     };
 
-    static async click(method, locator) {
+    static async click(method, locator, location=false) {
         let element = await CustomWorld.driver.element(method, locator);
-        return await element.click();
+        await element.click();
     };
 
     static async type(method, locator, value) {

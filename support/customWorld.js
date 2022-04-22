@@ -1,46 +1,49 @@
 const { World } = require('@cucumber/cucumber')
-
-/*
- * The only method to be inherited from the default world is
- * the constructor, so if you want to handle the options in
- * an entirely customized manner you don't have to extend from
- * World as seen here.
- */
 class CustomWorld extends World {
   driver = null;
   currentPage = null;
+  _capabilities = null;
+  
+  get capabilities() {
+    return this._capabilities;
+  }
 
-  /*
-   * A constructor is only needed if you have custom actions
-   * to take after the Cucumber parses the options or you
-   * want to override how the options are parsed.
-   * 
-   * The options are an object with three members
-   * {
-   *   log: Cucumber log function,
-   *   attach: Cucumber attachment function,
-   *   params: World Parameters object
-   * }
-   */
+  set capabilities(value) {
+    this._capabilities = value;
+  }
+
   constructor(options) {
-    /*
-     * If you don't call the super method you will need
-     * to bind the options here as you see fit.
-     */
     super(options);
     // Custom actions go here.
     process.env.DEVICE_NAME = options.parameters.deviceNickname;
+    this.init(options.parameters.deviceNickname);
   }
 
-  /*
-   * Constructors cannot be asynchronous! To work around this we'll
-   * use an init method with the Before hook
-   */
-  async init(scenario) {
-    // this.driver = await seleniumWebdriver.Builder()
-    //   .forBrowser(this.params.browser)
-    //   .build();
+  async init(deviceName) {
+    const device_capabilities = config.find(device => device.name === deviceName);
+    delete await device_capabilities.name;
+    this.defaultCapabilities = device_capabilities;
+    this.capabilities = device_capabilities;
   }
 }
+
+const config = [{
+  name: 'personal',
+  platformName: 'Android',
+  deviceName: '89MX0BQPQ',
+  udid: '89MX0BQPQ',
+  app: '/Users/thiagowerner/js_cucumber_appium/resources/android.apk',
+  platformVersion: '11',
+  automationName: 'UIAutomator2'
+}, {
+  name: 'simulator-android',
+  platformName: 'Android',
+  deviceName: 'Pixel5',
+  udid: 'emulator-5554',
+  app: '/Users/thiagowerner/js_cucumber_appium/resources/android.apk',
+  platformVersion: '10',
+  automationName: 'UIAutomator2'
+}
+];
 
 module.exports = CustomWorld

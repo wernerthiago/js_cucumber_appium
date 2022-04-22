@@ -1,103 +1,74 @@
 const base = require('./base.js').basePage;
 const assert = require('assert');
 const CustomWorld = require("../features/environment.js").CustomWorld
+const LoginPage = require('./login.js').LoginPage
 
 const elements = [
     {
         'name': 'Title',
         'type': 'LABEL',
         'method': 'xpath',
-        'locator': '//*[@class="signup"]/h1'
+        'locator': '//android.widget.TextView[@text="Sign Up"][1]'
     },
     {
-        'name': 'Body',
-        'type': 'LABEL',
+        'name': 'Back',
+        'type': 'BUTTON',
         'method': 'xpath',
-        'locator': '//*[@class="ab-signup-usa--free-text"]'
+        'locator': '//android.view.ViewGroup/android.widget.ImageView'
     },
     {
         'name': 'Name',
         'type': 'FIELD',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-name-1"]'
-    },
-    {
-        'name': 'Name Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="nameError"]'
+        'locator': '//android.widget.EditText[1]'
     },
     {
         'name': 'Email',
         'type': 'FIELD',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-email-1"]'
-    },
-    {
-        'name': 'Email Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="emailError"]'
-    },
-    {
-        'name': 'Email Invalid Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="emailInvalidError"]'
+        'locator': '//android.widget.EditText[2]'
     },
     {
         'name': 'Password',
         'type': 'FIELD',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-password-1"]'
-    },
-    {
-        'name': 'Password Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@data-testid="please-enter-your-password-1"]'
-    },
-    {
-        'name': 'Password Minimum Characters',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="password-hint"]/div[@id="signup-form-password"]'
-    },
-    {
-        'name': 'Legal',
-        'type': 'CHECKBOX',
-        'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-terms-1"]'
-    },
-    {
-        'name': 'Legal Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="termsError"]'
+        'locator': '//android.widget.EditText[3]'
     },
     {
         'name': 'Newsletter',
         'type': 'CHECKBOX',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-subscribe-1"]'
+        'locator': '//android.widget.TextView[@text="I agree to Miro Terms of Service and Privacy Policy"]'
     },
     {
-        'name': 'Get Started',
+        'name': 'Legal',
+        'type': 'CHECKBOX',
+        'method': 'xpath',
+        'locator': '//android.widget.TextView[@text="I agree to receive news and product updates from Miro"]'
+    },
+    {
+        'name': 'Sign Up',
         'type': 'BUTTON',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-signup-btn-start-1"]'
+        'locator': '//android.widget.TextView[@text="Sign Up"][2]'
     },
     {
-        'name': 'Single Sign-on',
-        'type': 'SECTION',
+        'name': 'Email Invalid Error',
+        'type': 'LABEL',
         'method': 'xpath',
-        'locator': '//*[@class="signup__referrer-container"]'
+        'locator': '//*[@resource-id="android:id/alertTitle" and @text="Email is not valid"]'
     },
     {
-        'name': 'Free License',
-        'type': 'SECTION',
+        'name': 'Password Minimum Characters',
+        'type': 'LABEL',
         'method': 'xpath',
-        'locator': '//*[@class="cxl-social-container"]'
+        'locator': '//*[@resource-id="android:id/alertTitle" and @text="Password has to be longer than 8 symbols"]'
+    },
+    {
+        'name': 'Legal Empty Error',
+        'type': 'LABEL',
+        'method': 'xpath',
+        'locator': '//*[@resource-id="android:id/alertTitle" and @text="Review the Terms"]'
     }
 ];
 
@@ -114,9 +85,7 @@ class SignUpPage {
     }
 
     static async navigate() {
-        await CustomWorld.driver.get('https://www.miro.com/signup');
-        await CustomWorld.driver.execute('return document.querySelector("#onetrust-banner-sdk").remove()')
-        await CustomWorld.driver.execute('return document.querySelector("#js-branch-banner-iframe").remove()')
+        await LoginPage.tap_signup();
         this.trait();
     }
 

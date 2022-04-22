@@ -5,10 +5,10 @@ const CustomWorld = require("../features/environment.js").CustomWorld
 
 const elements = [
     {
-        'name': 'Dashboard',
-        'type': 'SECTION',
+        'name': 'Boards',
+        'type': 'BUTTON',
         'method': 'xpath',
-        'locator': '//*[@class="dashboardContainer"]'
+        'locator': '//android.view.View[@content-desc="boards" and @selected="true"]'
     }
 ];
 
@@ -31,7 +31,7 @@ class HomePage {
     }
 
     static async trait() {
-        let element = await this.element('Dashboard', 'SECTION');
+        let element = await this.element('Boards', 'BUTTON');
         let result = await base.is_displayed(element.method, element.locator)
         assert(result, 'This is not the right page');
     }

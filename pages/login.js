@@ -4,76 +4,76 @@ const CustomWorld = require("../features/environment.js").CustomWorld
 
 const elements = [
     {
-        'name': 'Title',
-        'type': 'LABEL',
+        'name': 'Sign Up',
+        'type': 'BUTTON',
         'method': 'xpath',
-        'locator': '//*[@class="signup"]'
-    },
-    {
-        'name': 'Single Sign-on',
-        'type': 'SECTION',
-        'method': 'xpath',
-        'locator': '//*[@class="signup__social"]'
-    },
-    {
-        'name': 'Separator',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@class="signup__separator"]'
+        'locator': '//android.widget.Button[@content-desc="sign up"]'
     },
     {
         'name': 'Email',
         'type': 'FIELD',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-login-email-1"]'
-    },
-    {
-        'name': 'Email Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="emailError"]'
-    },
-    {
-        'name': 'Login Invalid',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="loginError"]'
+        'locator': '//android.widget.EditText[@content-desc="email"]'
     },
     {
         'name': 'Password',
         'type': 'FIELD',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-login-password-1"]'
-    },
-    {
-        'name': 'Password Empty Error',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="passwordError"]'
-    },
-    {
-        'name': 'Password Minimum Characters',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@id="password-hint"]/div[@id="signup-form-password"]'
-    },
-    {
-        'name': 'Forgot Password',
-        'type': 'LINK',
-        'method': 'xpath',
-        'locator': '//*[@data-testid="mr-link-forgot-password-1"]'
+        'locator': '//android.widget.EditText[@content-desc="password"]'
     },
     {
         'name': 'Sign in',
         'type': 'BUTTON',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-form-login-btn-signin-1"]'
+        'locator': '//android.widget.Button[@content-desc="sign in"]'
     },
     {
         'name': 'Single Sign-on',
+        'type': 'BUTTON',
+        'method': 'xpath',
+        'locator': '//android.widget.Button[@content-desc="get magic link, no password needed"]'
+    },
+    {
+        'name': 'Login Invalid',
+        'type': 'LABEL',
+        'method': 'xpath',
+        'locator': '//*[@resource-id="android:id/alertTitle"]'
+    },
+    {
+        'name': 'Forgot Password',
         'type': 'LINK',
         'method': 'xpath',
-        'locator': '//*[@data-testid="mr-link-signin-with-sso-1"]'
+        'locator': '//android.widget.Button[@content-desc="forgot password"]'
+    },
+    {
+        'name': 'Google',
+        'type': 'BUTTON',
+        'method': 'xpath',
+        'locator': '//android.widget.Button[@content-desc="google account"]'
+    },
+    {
+        'name': 'Slack',
+        'type': 'BUTTON',
+        'method': 'xpath',
+        'locator': '//android.widget.Button[@content-desc="slack"]'
+    },
+    {
+        'name': 'Microsoft',
+        'type': 'BUTTON',
+        'method': 'xpath',
+        'locator': '//android.widget.Button[@content-desc="microsoft"]'
+    },
+    {
+        'name': 'Facebook',
+        'type': 'BUTTON',
+        'method': 'xpath',
+        'locator': '//android.widget.Button[@content-desc="facebook"]'
+    },
+    {
+        'name': 'SSO',
+        'type': 'BUTTON',
+        'method': 'xpath',
+        'locator': '//android.widget.Button[@content-desc="sso"]'
     }
 ];
 
@@ -90,9 +90,6 @@ class LoginPage {
     }
 
     static async navigate() {
-        await CustomWorld.driver.get('https://www.miro.com/login');
-        await CustomWorld.driver.execute('return document.querySelector("#onetrust-banner-sdk").remove()')
-        await CustomWorld.driver.execute('return document.querySelector("#js-branch-banner-iframe").remove()')
         this.trait();
     }
 
@@ -115,6 +112,11 @@ class LoginPage {
         await this.type_credentials()
         let element_signin = await this.element('Sign in', 'BUTTON');
         await base.click(element_signin.method, element_signin.locator);
+    }
+
+    static async tap_signup() {
+        let element = await this.element('Sign Up', 'BUTTON');
+        await base.click(element.method, element.locator, true);
     }
 }
 

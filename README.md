@@ -28,9 +28,13 @@ Run Appium server:
 
 ```$ appium```
 
+(Web App only)
+
 In case of your device's chromedriver does not match to the system, use the following command:
 
 ```$ appium --chromedriver-executable /path/to/the/chromedriver```
+
+(/Web App only)
 
 Run all test files:
 

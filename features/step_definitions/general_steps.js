@@ -17,6 +17,11 @@ When('the user clicks on the {string} button', {timeout: 2 * 10000}, async (stri
     await base.click(element.method, element.locator)
 });
 
+When('the user clicks on the {string} field', {timeout: 2 * 10000}, async (string) => {
+    let element = await CustomWorld.currentPage.element(string, 'FIELD');
+    await base.click(element.method, element.locator)
+});
+
 When('the user types {string} on the {string} field', {timeout: 2 * 10000}, async (string, string2) => {
     let element = await CustomWorld.currentPage.element(string2, 'FIELD');
     await base.type(element.method, element.locator, string);
