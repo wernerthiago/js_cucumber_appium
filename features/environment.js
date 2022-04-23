@@ -1,6 +1,7 @@
 const wd = require('wd');
 const { BeforeAll, Before, After, setWorldConstructor } = require('@cucumber/cucumber');
 const CustomWorld = require("../support/customWorld.js")
+const device_config = require('../support/deviceConfig.js')
 
 const PORT = 4723;
 setWorldConstructor(CustomWorld);
@@ -26,7 +27,7 @@ const config = [{
 ];
 
 Before({timeout: 100000}, async () => {
-    let device_capabilities = await config.find(device => device.name === process.env.DEVICE_NAME);
+    const device_capabilities = device_config.find(item => item.name === process.env.DEVICE_NAME).capabilities;
     CustomWorld.capabilities = device_capabilities;
     CustomWorld.driver = await driver;
     await CustomWorld.driver.init(device_capabilities);

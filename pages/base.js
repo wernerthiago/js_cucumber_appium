@@ -5,46 +5,59 @@ class basePage {
     constructor() {
     }
 
-    async find_element(method, locator) {
-        let element;
+    async find_element(element) {
+        const locator = await this.getLocator(element);
 
-        element = await CustomWorld.driver.element(method, locator);
+        el = await CustomWorld.driver.element(locator.method, locator.locator);
 
-        return element;
+        return el;
     };
     
-    static async is_displayed(method, locator) {
-        let keyboard = await CustomWorld.driver.isKeyboardShown();
-        if (keyboard === true) {
-            await CustomWorld.driver.hideDeviceKeyboard();
-        }
-        let element = await CustomWorld.driver.element(method, locator);
-        let isDisplayed = await element.isDisplayed();
+    async is_displayed(element) {
+        const locator = await this.getLocator(element);
+        let el = await CustomWorld.driver.element(locator.method, locator.locator);
+        let isDisplayed = await el.isDisplayed();
         return isDisplayed
     };
 
-    static async click(method, locator, location=false) {
-        let element = await CustomWorld.driver.element(method, locator);
-        await element.click();
+    async click(element) {
+        const locator = await this.getLocator(element);
+        let el = await CustomWorld.driver.element(locator.method, locator.locator);
+        return await el.click();
     };
 
-    static async type(method, locator, value) {
-        let element = await CustomWorld.driver.element(method, locator);
-        return await element.type(value);
+    async type(element, value) {
+        const locator = await this.getLocator(element);
+        let el = await CustomWorld.driver.element(locator.method, locator.locator);
+        return await el.type(value);
     };
 
-    static async match_text(method, locator, text) {
-        let element = await CustomWorld.driver.element(method, locator);
-        let actual = await element.text();
+    async match_text(element, text) {
+        const locator = await this.getLocator(element);
+        let el = await CustomWorld.driver.element(locator.method, locator.locator);
+        let actual = await el.text();
         let result = text.localeCompare(actual);
         return (result === 0, actual);
     };
 
-    static async ifKeyboard_hide() {
+    async ifKeyboard_hide() {
         let keyboard = await CustomWorld.driver.isKeyboardShown();
         if (keyboard === true) {
             await CustomWorld.driver.hideDeviceKeyboard();
         }
+    }
+
+    async getPlatformName() {
+        const capabilities = await CustomWorld.capabilities;
+        return capabilities.platformName;
+    }
+
+    async getLocator(element) {
+        let locator = await element.locator.get_locator(this.getPlatformName());
+        return {
+            method: locator.method,
+            locator: locator.locator
+        };
     }
 }
 

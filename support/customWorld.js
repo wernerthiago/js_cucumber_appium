@@ -1,49 +1,44 @@
-const { World } = require('@cucumber/cucumber')
+const { World } = require('@cucumber/cucumber');
+const device_config = require('./deviceConfig');
+
 class CustomWorld extends World {
-  driver = null;
-  currentPage = null;
-  _capabilities = null;
-  
-  get capabilities() {
-    return this._capabilities;
-  }
-
-  set capabilities(value) {
-    this._capabilities = value;
-  }
-
   constructor(options) {
     super(options);
-    // Custom actions go here.
+    this._driver = null;
+    this._currentPage = null;
+    this._capabilities = null;
     process.env.DEVICE_NAME = options.parameters.deviceNickname;
     this.init(options.parameters.deviceNickname);
   }
 
   async init(deviceName) {
-    const device_capabilities = config.find(device => device.name === deviceName);
-    delete await device_capabilities.name;
-    this.defaultCapabilities = device_capabilities;
+    const device_capabilities = device_config.find(item => item.name === deviceName).capabilities;
     this.capabilities = device_capabilities;
   }
-}
 
-const config = [{
-  name: 'personal',
-  platformName: 'Android',
-  deviceName: '89MX0BQPQ',
-  udid: '89MX0BQPQ',
-  app: '/Users/thiagowerner/js_cucumber_appium/resources/android.apk',
-  platformVersion: '11',
-  automationName: 'UIAutomator2'
-}, {
-  name: 'simulator-android',
-  platformName: 'Android',
-  deviceName: 'Pixel5',
-  udid: 'emulator-5554',
-  app: '/Users/thiagowerner/js_cucumber_appium/resources/android.apk',
-  platformVersion: '10',
-  automationName: 'UIAutomator2'
+  get capabilities() {
+    return this._capabilities;
+  }
+
+  set capabilities(capabilities) {
+    this._capabilities = capabilities;
+  }
+
+  get driver() {
+    return this._driver;
+  }
+
+  set driver(driver) {
+    this._driver = driver;
+  }
+
+  get currentPage() {
+    return this._currentPage;
+  }
+
+  set currentPage(currentPage) {
+    this._currentPage = currentPage;
+  }
 }
-];
 
 module.exports = CustomWorld

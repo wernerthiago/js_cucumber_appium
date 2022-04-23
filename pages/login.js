@@ -1,122 +1,73 @@
-const base = require('./base.js').basePage;
+const basePage = require('./base.js').basePage;
 const assert = require('assert');
+const Locator = require('../support/locator.js')
 const CustomWorld = require("../features/environment.js").CustomWorld
 
-const elements = [
-    {
-        'name': 'Sign Up',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="sign up"]'
-    },
-    {
-        'name': 'Email',
-        'type': 'FIELD',
-        'method': 'xpath',
-        'locator': '//android.widget.EditText[@content-desc="email"]'
-    },
-    {
-        'name': 'Password',
-        'type': 'FIELD',
-        'method': 'xpath',
-        'locator': '//android.widget.EditText[@content-desc="password"]'
-    },
-    {
-        'name': 'Sign in',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="sign in"]'
-    },
-    {
-        'name': 'Single Sign-on',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="get magic link, no password needed"]'
-    },
-    {
-        'name': 'Login Invalid',
-        'type': 'LABEL',
-        'method': 'xpath',
-        'locator': '//*[@resource-id="android:id/alertTitle"]'
-    },
-    {
-        'name': 'Forgot Password',
-        'type': 'LINK',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="forgot password"]'
-    },
-    {
-        'name': 'Google',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="google account"]'
-    },
-    {
-        'name': 'Slack',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="slack"]'
-    },
-    {
-        'name': 'Microsoft',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="microsoft"]'
-    },
-    {
-        'name': 'Facebook',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="facebook"]'
-    },
-    {
-        'name': 'SSO',
-        'type': 'BUTTON',
-        'method': 'xpath',
-        'locator': '//android.widget.Button[@content-desc="sso"]'
-    }
-];
-
-class LoginPage {
+class LoginPage extends basePage {
     constructor() {
+        super();
+        this.locators = [];
+        this.init();
     }
 
-    static get elements() {
+    newLocator(name, type, method_ios=null, locator_ios=null, method_android=null, locator_android=null) {
+        let newElement = new Locator(this, name, type, method_ios=method_ios, locator_ios=locator_ios, method_android=method_android, locator_android=locator_android);
+        this.locators.push(newElement);
+        return newElement;
+    }
+
+    init() {
+        this.SIGN_UP_BUTTON = this.newLocator('Sign Up', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="sign up"]', undefined, undefined);
+        this.EMAIL_FIELD = this.newLocator('Email', 'FIELD', 'xpath', '//android.widget.EditText[@content-desc="email"]', undefined, undefined);
+        this.PASSWORD_FIELD = this.newLocator('Password', 'FIELD', 'xpath', '//android.widget.EditText[@content-desc="password"]', undefined, undefined);
+        this.SIGN_IN_BUTTON = this.newLocator('Sign in', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="sign in"]', undefined, undefined);
+        this.SINGLE_SIGN_ON_BUTTON = this.newLocator('Single Sign-on', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="get magic link, no password needed"]', undefined, undefined);
+        this.LOGININVALID_LABEL = this.newLocator('Login Invalid', 'LABEL', 'xpath', '//*[@resource-id="android:id/alertTitle"]', undefined, undefined);
+        this.FORGOTPASSWORD_LINK = this.newLocator('Forgot Password', 'LINK', 'xpath', '//android.widget.Button[@content-desc="forgot password"]', undefined, undefined);
+        this.GOOGLE_BUTTON = this.newLocator('Google', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="google account"]', undefined, undefined);
+        this.SLACK_BUTTON = this.newLocator('Slack', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="slack"]', undefined, undefined);
+        this.MICROSOFT_BUTTON = this.newLocator('Microsoft', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="microsoft"]', undefined, undefined);
+        this.FACEBOOK_BUTTON = this.newLocator('Facebook', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="facebook"]', undefined, undefined);
+        this.SSO_BUTTON = this.newLocator('SSO', 'BUTTON', 'xpath', '//android.widget.Button[@content-desc="sso"]', undefined, undefined);
+    }
+
+    searchLocator(name, type) {
+        const element = this.locators.filter(element => element.name === name && element.type === type);
+        assert(element.length > 0, `The ${name} element is not implemented inside ${this} or the Name and Type properties are not the same.`)
+        return element[0]
+    }
+
+    get elements() {
         return elements;
     }
 
-    static async element(name, type) {
-        return elements.find(element => element.name === name && element.type === type);
+    async element(name, type) {
+        return this.searchLocator(name, type);
     }
 
-    static async navigate() {
+    async navigate() {
         this.trait();
     }
 
-    static async trait() {
-        let element = await this.element('Email', 'FIELD');
-        let result = await base.is_displayed(element.method, element.locator)
+    async trait() {
+        let result = await this.is_displayed(this.EMAIL_FIELD);
         assert(result, 'This is not the right page');
     }
 
-    static async type_credentials() {
+    async type_credentials() {
         let username = process.env.MIRO_USERNAME;
         let password = process.env.MIRO_PASSWORD;
-        let element_username = await this.element('Email', 'FIELD')
-        let element_password = await this.element('Password', 'FIELD');
-        await base.type(element_username.method, element_username.locator, username);
-        await base.type(element_password.method, element_password.locator, password);
+        await this.type(this.EMAIL_FIELD, username);
+        await this.type(this.PASSWORD_FIELD, password);
     }
 
-    static async login() {
+    async login() {
         await this.type_credentials()
-        let element_signin = await this.element('Sign in', 'BUTTON');
-        await base.click(element_signin.method, element_signin.locator);
+        await this.click(this.SIGN_IN_BUTTON);
     }
 
-    static async tap_signup() {
-        let element = await this.element('Sign Up', 'BUTTON');
-        await base.click(element.method, element.locator, true);
+    async tap_signup() {
+        await this.click(this.SIGN_UP_BUTTON);
     }
 }
 
