@@ -19,12 +19,12 @@ class SignUpPage extends basePage {
     init() {
         this.TITLE_LABEL = this.newLocator('Title', 'LABEL', 'xpath', '//android.widget.TextView[@text="Sign Up"][1]', undefined, undefined);
         this.BACK_BUTTON = this.newLocator('Back', 'BUTTON', 'xpath', '//android.view.ViewGroup/android.widget.ImageView', undefined, undefined);
-        this.NAME_FIELD = this.newLocator('Name', 'FIELD', 'xpath', '//android.widget.EditText[1]', undefined, undefined);
-        this.EMAIL_FIELD = this.newLocator('Email', 'FIELD', 'xpath', '//android.widget.EditText[2]', undefined, undefined);
-        this.PASSWORD_FIELD = this.newLocator('Password', 'FIELD', 'xpath', '//android.widget.EditText[3]', undefined, undefined);
+        this.NAME_FIELD = this.newLocator('Name', 'FIELD', 'xpath', '//android.widget.EditText[@text="name"]', undefined, undefined);
+        this.EMAIL_FIELD = this.newLocator('Email', 'FIELD', 'xpath', '//android.widget.EditText[@text="email"]', undefined, undefined);
+        this.PASSWORD_FIELD = this.newLocator('Password', 'FIELD', 'xpath', '//android.widget.EditText[@text="password"]', undefined, undefined);
         this.NEWSLETTER_CHECKBOX = this.newLocator('Newsletter', 'CHECKBOX', 'xpath', '//android.widget.TextView[@text="I agree to Miro Terms of Service and Privacy Policy"]', undefined, undefined);
         this.LEGAL_CHECKBOX = this.newLocator('Legal', 'CHECKBOX', 'xpath', '//android.widget.TextView[@text="I agree to receive news and product updates from Miro"]', undefined, undefined);
-        this.SIGN_UP_BUTTON = this.newLocator('Sign Up', 'BUTTON', 'xpath', '//android.widget.TextView[@text="Sign Up"][2]', undefined, undefined);
+        this.SIGN_UP_BUTTON = this.newLocator('Sign Up', 'BUTTON', 'xpath', '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[9]/android.view.ViewGroup/android.widget.TextView', undefined, undefined);
         this.EMIALINVALID_LABEL = this.newLocator('Email Invalid Error', 'LABEL', 'xpath', '//*[@resource-id="android:id/alertTitle" and @text="Email is not valid"]', undefined, undefined);
         this.PASSWORDMINIMUM_LABEL = this.newLocator('Password Minimum Characters', 'LABEL', 'xpath', '//*[@resource-id="android:id/alertTitle" and @text="Password has to be longer than 8 symbols"]', undefined, undefined);
         this.LEGALEMPTY_LABEL = this.newLocator('Legal Empty Error', 'LABEL', 'xpath', '//*[@resource-id="android:id/alertTitle" and @text="Review the Terms"]', undefined, undefined);

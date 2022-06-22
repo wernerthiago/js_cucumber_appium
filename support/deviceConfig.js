@@ -14,7 +14,7 @@ const deviceConfig = [
         name: 'simulatorAndroid',
         capabilities: {
             platformName: 'Android',
-            deviceName: 'Pixel5',
+            deviceName: 'emulator-5554',
             udid: 'emulator-5554',
             app: '/Users/thiagowerner/js_cucumber_appium/resources/android.apk',
             platformVersion: '10',
